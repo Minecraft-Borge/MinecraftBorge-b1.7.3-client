@@ -1,0 +1,12 @@
+
+borge.mods=Mods
+borge.texturePacks=Texture Packs
+borge.mods.title=Installed Mods
+borge.mods.folderInfo=(A game restart is required to install new mods)
+borge.mods.openFolder=Open mods folder
+borge.options=MinecraftBorge Settings...
+borge.options.title=MinecraftBorge Settings
+borge.options.disclaimer=A game restart is required to apply the options!
+borge.options.ModifyMainMenu=Modify menus
+borge.options.PersistentBlockUpdates=Save block updates
+borge.options.FixFurnaceFuelConsumption=Furnace fuel fix
