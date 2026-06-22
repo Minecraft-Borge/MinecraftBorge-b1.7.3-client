@@ -5,6 +5,7 @@ public class TerrainIcon implements Icon {
 	public final int textureIndex;
 	public final int width, height;
 	public final int atlasIndex;
+	private int atlasX, atlasY;
 	public final int localX, localY;
 	public TerrainIcon(int textureIndex, int width, int height, int atlasIndex, int localX, int localY) {
 		this.textureIndex = textureIndex;
@@ -32,11 +33,20 @@ public class TerrainIcon implements Icon {
 	}
 	public void populate(AtlasSorter sorter) {
 		int pack = sorter.atlasPositions[this.atlasIndex];
-		float x = sorter.x(pack) / (float) sorter.width;
-		float y = sorter.y(pack) / (float) sorter.height;
+		this.atlasX = sorter.x(pack);
+		this.atlasY = sorter.y(pack);
+		float x = this.atlasX / (float) sorter.width;
+		float y = this.atlasY / (float) sorter.height;
 		this.minU = this.localX / 16.0F / sorter.width + x;
 		this.maxU = (this.localX + this.width - 0.001F) / 16.0F / sorter.width + x;
 		this.minV = this.localY / 16.0F / sorter.height + y;
 		this.maxV = (this.localY + this.height - 0.001F) / 16.0F / sorter.height + y;
+	}
+
+	public int getAtlasX() {
+		return this.atlasX;
+	}
+	public int getAtlasY() {
+		return this.atlasY;
 	}
 }

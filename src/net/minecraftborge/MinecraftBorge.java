@@ -32,12 +32,12 @@ import java.util.stream.Collectors;
 public class MinecraftBorge {
 	public static final boolean EXPERIMENTAL_APPLET_LOADPOINT = true;
 
-	public static final String UPDATE_URL = "https://minecraftborge.net/versions.xml";
+	public static final String UPDATE_URL = "https://minecraftborge.net/files/versions.xml";
 	public static final String FALLBACK_UPDATE_URL = "https://minecraft-borge.github.io/files/versions.xml";
 	private static boolean useFallback = false;
 	public static boolean hasLoaded = false;
 
-	public static final String VERSION = "1.4.0";
+	public static final String VERSION = "1.4.1";
 	public static final String MC_VERSION = "b1.7.3";
 	public static String NEW_VERSION = null;
 

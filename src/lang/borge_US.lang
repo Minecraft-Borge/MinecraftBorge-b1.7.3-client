@@ -10,3 +10,4 @@ borge.options.disclaimer=A game restart is required to apply the options!
 borge.options.ModifyMainMenu=Modify menus
 borge.options.PersistentBlockUpdates=Save block updates
 borge.options.FixFurnaceFuelConsumption=Furnace fuel fix
+borge.options.FixAmbientOcclusion=Smooth light fix

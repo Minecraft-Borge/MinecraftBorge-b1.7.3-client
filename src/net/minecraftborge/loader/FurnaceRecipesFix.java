@@ -88,6 +88,10 @@ public class FurnaceRecipesFix {
 		return (itemID & 0xFFFF) | (itemMeta & 0xFFFF) << 16;
 	}
 
+	public Map<Integer, Result> getSmeltingList() {
+		return this.recipes;
+	}
+
 	public static class Result {
 		public final ItemStack item;
 		public final int recipeTime;

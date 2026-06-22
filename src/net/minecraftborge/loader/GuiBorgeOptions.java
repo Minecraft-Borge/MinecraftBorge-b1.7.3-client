@@ -90,10 +90,10 @@ public class GuiBorgeOptions extends GuiScreen {
 					list.add("When a block model is smaller");
 					list.add("than a full block, the AO algorithm");
 					list.add("does not account for this.");
-					list.add("This bug created strange shading on certain");
-					list.add("blocks, such as snow layers.");
-					list.add("This patch changes the algorithm to also take");
-					list.add("model size into account.");
+					list.add("This bug creates strange shading on");
+					list.add("certain blocks, such as stairs.");
+					list.add("This patch changes the algorithm to");
+					list.add("also take cube size into account.");
 					break;
 			}
 			this.descriptions.add(list);
@@ -152,6 +152,12 @@ public class GuiBorgeOptions extends GuiScreen {
 				EnumBorgeOptions key = OPTIONS[i];
 				Object value = this.states[i];
 				writer.write(key.getActualString() + "=" + value.toString() + "\n");
+				MinecraftBorge.blackboard.put(key.getActualString(), value);
+
+				if (key == EnumBorgeOptions.FIX_AMBIENT_OCCLUSION) {
+					RenderBlocks.enableAOFix = (boolean) value;
+					this.mc.renderGlobal.loadRenderers();
+				}
 			}
 			writer.close();
 		} catch (Exception e) {
