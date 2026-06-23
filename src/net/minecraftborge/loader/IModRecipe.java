@@ -6,4 +6,8 @@ public interface IModRecipe extends IRecipe {
 	default int sortingIndex() {
 		return 0;
 	}
+
+	default boolean isInternalRecipeFix() {
+		return false;
+	}
 }

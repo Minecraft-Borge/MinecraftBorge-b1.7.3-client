@@ -39,6 +39,7 @@ public class ItemTags {
 		tag("logWood", new ItemStack(Block.wood, 1, 1));
 		tag("logWood", new ItemStack(Block.wood, 1, 2));
 		tag("planksWood", Block.planks);
+		tag("stickWood", Item.stick);
 
 		tag("cloth", new ItemStack(Block.cloth, 1, -1));
 
@@ -48,6 +49,11 @@ public class ItemTags {
 		tag("gemLapis", new ItemStack(Item.dyePowder, 1, 4));
 		tag("gemDiamond", Item.diamond);
 		tag("dustRedstone", Item.redstone);
+
+		tag("blockIron", Block.blockIron);
+		tag("blockGold", Block.blockGold);
+		tag("blockLapis", Block.blockLapis);
+		tag("blockDiamond", Block.blockDiamond);
 
 		for (int i = 0; i < 16; i++) {
 			tag("dye" + DyeHelper.ITEM_NAMES[i], new ItemStack(Item.dyePowder, 1, i));

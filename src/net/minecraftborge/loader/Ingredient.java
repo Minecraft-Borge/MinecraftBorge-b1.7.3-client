@@ -105,6 +105,7 @@ public abstract class Ingredient implements Predicate<ItemStack> {
 		}
 	}
 	private static class ByTag extends Ingredient {
+		private List<ItemStack> examples = null;
 		private final String tag;
 		private ByTag(String tag) {
 			this.tag = tag;
@@ -117,8 +118,8 @@ public abstract class Ingredient implements Predicate<ItemStack> {
 
 		@Override
 		public boolean test(ItemStack stack) {
-			List<ItemStack> examples = ItemTags.getTagged(this.tag);
-			for (ItemStack example : examples) {
+			if (this.examples == null) this.examples = ItemTags.getTagged(this.tag);
+			for (ItemStack example : this.examples) {
 				if (ItemTags.matches(example, stack)) return true;
 			}
 			return false;

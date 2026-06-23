@@ -4,10 +4,7 @@ import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraftborge.loader.IModRecipe;
-import net.minecraftborge.loader.Ingredient;
-import net.minecraftborge.loader.RecipeShapedFix;
-import net.minecraftborge.loader.RecipeShapelessFix;
+import net.minecraftborge.loader.*;
 import net.minecraftborge.loader.event.Event;
 
 import java.util.ArrayList;
@@ -18,6 +15,11 @@ public class AddRecipesEvent extends Event {
 
 	public AddRecipesEvent(CraftingManager manager) {
 		this.manager = manager;
+	}
+
+	private boolean status = true;
+	public void releaseInternalStatus() {
+		this.status = false;
 	}
 
 	public void addRecipe(IModRecipe recipe) {
@@ -73,7 +75,9 @@ public class AddRecipesEvent extends Event {
 			grid[i] = pattern.getOrDefault(key, null);
 		}
 
-		this.addRecipe(new RecipeShapedFix(sortingIndex, w, h, result, grid));
+
+		if (this.status) this.addRecipe(new RecipeShapedFixInternal(sortingIndex, w, h, result, grid));
+		else this.addRecipe(new RecipeShapedFix(sortingIndex, w, h, result, grid));
 	}
 	public void addShapedRecipe(ItemStack result, Object... inputs) {
 		this.addShapedRecipe(0, result, inputs);
@@ -95,7 +99,8 @@ public class AddRecipesEvent extends Event {
 			}
 		}
 
-		this.addRecipe(new RecipeShapelessFix(sortingIndex, result, ingredients));
+		if (this.status) this.addRecipe(new RecipeShapelessFixInternal(sortingIndex, result, ingredients));
+		else this.addRecipe(new RecipeShapelessFix(sortingIndex, result, ingredients));
 	}
 	public void addShapelessRecipe(ItemStack result, Object... inputs) {
 		this.addShapelessRecipe(0, result, inputs);
