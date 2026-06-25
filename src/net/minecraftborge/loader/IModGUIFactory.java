@@ -8,5 +8,5 @@ import net.minecraft.src.GuiContainer;
  */
 @FunctionalInterface
 public interface IModGUIFactory {
-	GuiContainer createGUI(int id, EntityPlayer player);
+	GuiContainer createGUI(int id, EntityPlayer player, byte[] extraData);
 }
