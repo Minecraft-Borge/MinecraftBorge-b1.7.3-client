@@ -36,6 +36,7 @@ public class RegistryEntities implements IRegistry<Class<? extends Entity>> {
 			if (this.wrapper.IDtoClassMap.containsKey(i)) continue;
 
 			this.wrapper.registrator.register(value, key, i);
+			return;
 		}
 		throw new IllegalStateException("Entity ID limit reached!");
 	}
