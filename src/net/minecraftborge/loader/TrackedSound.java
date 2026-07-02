@@ -23,9 +23,6 @@ public final class TrackedSound {
 	public void setPos(float x, float y, float z) {
 		if (this.valid) this.sndSystem.setPosition(this.soundID, x, y, z);
 	}
-	public void setSpeed(float x, float y, float z) {
-		if (this.valid) this.sndSystem.setVelocity(this.soundID, x, y, z);
-	}
 	public void setVolume(float volume) {
 		if (this.valid) this.sndSystem.setVolume(this.soundID, volume);
 	}
