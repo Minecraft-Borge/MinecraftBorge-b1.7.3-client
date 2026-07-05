@@ -32,7 +32,7 @@ public class RegistryEntities implements IRegistry<Class<? extends Entity>> {
 
 	@Override
 	public void register(String key, Class<? extends Entity> value) {
-		for (int i = 0; i < EntityList.MAX_ENTITY_ID; i++) {
+		for (int i = 1; i < EntityList.MAX_ENTITY_ID; i++) {
 			if (this.wrapper.IDtoClassMap.containsKey(i)) continue;
 
 			this.wrapper.registrator.register(value, key, i);
