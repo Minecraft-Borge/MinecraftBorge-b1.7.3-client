@@ -37,8 +37,8 @@ public abstract class IdAllocationEvent<T> extends Event {
 
 		@Override
 		public int getNextFreeId() {
-			for (int i = 256; i < Item.itemsList.length; i++) {
-				if (Item.itemsList[i] == null) return i - 256;
+			for (int i = Block.ID_SIZE; i < Item.itemsList.length; i++) {
+				if (Item.itemsList[i] == null) return i - Block.ID_SIZE;
 			}
 			throw new RuntimeException("Ran out of item IDs!");
 		}
