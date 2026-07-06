@@ -111,6 +111,31 @@ public class MinecraftBorge {
 				}
 			}
 
+			localload:
+			if (GameObfuscationType.detect() == GameObfuscationType.NONE) {
+				System.out.println("No obfuscation, dev env is assumed");
+				try {
+					final Manifest manifest;
+					try (InputStream in = getClassLoader().getResourceAsStream("META-INF/MANIFEST.MF")) {
+						if (in == null) {
+							System.err.println("No local manifest, disregarding");
+							break localload;
+						}
+						manifest = new Manifest(in);
+					} catch (IOException e) {
+						throw new IllegalStateException("Exception reading manifest", e);
+					}
+
+					Attributes attributes = manifest.getMainAttributes();
+					ModCandidate candidate = new ModCandidate(null, null, attributes);
+					System.out.println(candidate.attributes.keySet());
+					System.out.println(candidate.attributes.values());
+					if (candidate.validateProperties()) mods.add(candidate);
+				} catch (Throwable e) {
+					e.printStackTrace(System.err);
+				}
+			}
+
 			Map<String, ModCandidate> candidatesByName = mods.stream().collect(Collectors.toMap(c -> c.name, c -> c));
 
 			List<String> modIds = new ArrayList<>();
@@ -119,7 +144,7 @@ public class MinecraftBorge {
 				if (modIds.contains(candidate.name)) throw new ModloadingException("Duplicate mod ID: " + candidate.name);
 				modIds.add(candidate.name);
 				try {
-					nameToUrl.put(candidate.name, candidate.sourceFile.toURI().toURL());
+					if (candidate.sourceFile != null) nameToUrl.put(candidate.name, candidate.sourceFile.toURI().toURL());
 				} catch (Throwable e) {
 					throw new ModloadingException(e);
 				}
@@ -135,6 +160,29 @@ public class MinecraftBorge {
 			ASMDataTable table = new ASMDataTable();
 			ModLoadingClassVisitor cv = new ModLoadingClassVisitor(Opcodes.ASM8, table);
 			for (JarFile jar : mods.stream().map(candidate -> candidate.jar).collect(Collectors.toList())) {
+				if (jar == null) {
+					try (
+						InputStream in = Objects.requireNonNull(getClassLoader().getResourceAsStream("runtime.txt"));
+						BufferedReader reader = new BufferedReader(new InputStreamReader(in))
+					) {
+						reader.lines()
+								.map(String::trim)
+								.filter(s -> !s.isEmpty())
+								.filter(s -> !s.startsWith("#"))
+								.forEach(line -> {
+									try (InputStream stream = getClassLoader().getResourceAsStream(line + ".class")) {
+										assert stream != null;
+										ClassReader cr = new ClassReader(stream);
+										cr.accept(cv, 0);
+									} catch (Throwable e) {
+										System.err.println("Invalid class name " + line + ": " + e);
+									}
+								});
+					} catch (Throwable e) {
+						System.err.println("runtime.txt not found, annotations won't be processed!");
+					}
+					continue;
+				}
 				Iterator<JarEntry> stream = jar.stream().iterator();
 				while (stream.hasNext()) {
 					JarEntry entry = stream.next();
