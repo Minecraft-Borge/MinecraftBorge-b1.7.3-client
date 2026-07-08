@@ -1,8 +1,10 @@
 package net.minecraftborge.loader;
 
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraftborge.loader.tag.ItemTags;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -13,11 +15,14 @@ import java.util.function.Predicate;
 public abstract class Ingredient implements Predicate<ItemStack> {
 	public abstract List<ItemStack> getDisplayItems();
 
-	public static Ingredient custom(Predicate<ItemStack> predicate, ItemStack icon) {
+	public static Ingredient custom(Predicate<ItemStack> predicate, List<ItemStack> icon) {
 		return new Ingredient.Custom(predicate, icon);
 	}
+	public static Ingredient custom(Predicate<ItemStack> predicate, ItemStack icon) {
+		return new Ingredient.Custom(predicate, Collections.singletonList(icon));
+	}
 	public static Ingredient custom(Predicate<ItemStack> predicate) {
-		return custom(predicate, null);
+		return new Ingredient.Custom(predicate, Collections.emptyList());
 	}
 
 	public static Ingredient empty() {
@@ -52,16 +57,16 @@ public abstract class Ingredient implements Predicate<ItemStack> {
 	}
 	private static class Custom extends Ingredient {
 		private final Predicate<ItemStack> predicate;
-		private final ItemStack icon;
+		private final List<ItemStack> icon;
 
-		private Custom(Predicate<ItemStack> predicate, ItemStack icon) {
+		private Custom(Predicate<ItemStack> predicate, List<ItemStack> icon) {
 			this.predicate = predicate;
 			this.icon = icon;
 		}
 
 		@Override
 		public List<ItemStack> getDisplayItems() {
-			return Collections.singletonList(this.icon);
+			return this.icon;
 		}
 
 		@Override
@@ -71,16 +76,17 @@ public abstract class Ingredient implements Predicate<ItemStack> {
 	}
 
 	private static class ById extends Ingredient {
-		private final ItemStack icon;
 		private final int itemID;
 		private ById(int itemID) {
-			this.icon = new ItemStack(itemID, 1, 0);
 			this.itemID = itemID;
 		}
 
 		@Override
 		public List<ItemStack> getDisplayItems() {
-			return Collections.singletonList(this.icon);
+			if (Item.itemsList[this.itemID] == null) return Collections.emptyList();
+			List<ItemStack> list = new ArrayList<>();
+			Item.itemsList[this.itemID].getSubItems(list);
+			return list;
 		}
 
 		@Override
