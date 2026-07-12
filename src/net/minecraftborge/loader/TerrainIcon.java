@@ -18,10 +18,14 @@ public class TerrainIcon implements Icon {
 
 	@Override
 	public double getU(double lerp) {
+		if (lerp <= 0.0) return this.minU;
+		if (lerp >= 1.0) return this.maxU;
 		return this.minU + (this.maxU - this.minU) * lerp;
 	}
 	@Override
 	public double getV(double lerp) {
+		if (lerp <= 0.0) return this.minV;
+		if (lerp >= 1.0) return this.maxV;
 		return this.minV + (this.maxV - this.minV) * lerp;
 	}
 
