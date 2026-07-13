@@ -10,14 +10,14 @@ public abstract class Event {
 	private final boolean cancelable = this.getClass().isAnnotationPresent(Cancelable.class);
 	private boolean canceled = false;
 
-	public boolean isCancelable() {
+	public final boolean isCancelable() {
 		return this.cancelable;
 	}
-	public boolean isCanceled() {
+	public final boolean isCanceled() {
 		return this.canceled;
 	}
 
-	public void setCanceled(boolean canceled) {
+	public final void setCanceled(boolean canceled) {
 		if (this.isCancelable() || !canceled) this.canceled = canceled;
 	}
 

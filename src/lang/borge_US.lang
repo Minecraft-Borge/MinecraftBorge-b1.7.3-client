@@ -11,3 +11,6 @@ borge.options.ModifyMainMenu=Modify menus
 borge.options.PersistentBlockUpdates=Save block updates
 borge.options.FixFurnaceFuelConsumption=Furnace fuel fix
 borge.options.FixAmbientOcclusion=Smooth light fix
+
+tile.tallgrass.name=Tall Grass
+tile.deadbush.name=Dead Bush
