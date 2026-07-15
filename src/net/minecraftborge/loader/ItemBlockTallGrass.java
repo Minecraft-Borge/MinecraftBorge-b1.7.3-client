@@ -12,4 +12,9 @@ public class ItemBlockTallGrass extends ItemBlock {
 	public int getColorFromDamage(int damage) {
 		return ColorizerGrass.getGrassColor(0.5, 0.5);
 	}
+
+	@Override
+	public int getPlacedBlockMetadata(int damage) {
+		return damage;
+	}
 }
